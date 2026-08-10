@@ -24,9 +24,10 @@ charset = utf-8
 
 # Indica si se recortan los espacios en blanco al final de las líneas
 # Valores posibles: true, false
-trim_trailing_whitespace = true
-n
+trim_trailing_whitespace = true 
+
 [*.md]
+
 trim_trailing_whitespace = false
 
 # Indica si el archivo debe finalizar con una nueva línea

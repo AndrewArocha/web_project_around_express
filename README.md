@@ -17,7 +17,7 @@ The server is designed with a strong focus on modular routing, asynchronous file
 *   **Framework:** Express.js
 *   **Language:** TypeScript
 *   **Architecture:** ES Modules (`import`/`export`)
-*   **Development Tools:** ESLint, Prettier, ts-node-dev (Hot Reloading)
+*   **Development Tools:** ESLint, Prettier, tsx (Hot Reloading)
 
 ## 💻 Running the Project Locally
 

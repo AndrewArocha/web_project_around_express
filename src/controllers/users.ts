@@ -1,7 +1,7 @@
 //Controller for users in src/controllers/users.ts
 
 import type { Request, Response } from 'express';
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const usersFilePath = path.join(import.meta.dirname, '../../data/users.json');
@@ -12,7 +12,7 @@ export const getUsers = async (req: Request, res: Response) => {
     const data = await fs.readFile(usersFilePath, 'utf-8');
     const users = JSON.parse(data);
     res.status(200).json(users);
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: "An error has ocurred on the server" });
   }
 }
@@ -31,7 +31,7 @@ export const getUserById = async (req: Request, res: Response) => {
     } else {
         res.status(404).json({ message: "User ID not found" }); 
     }
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: "An error has ocurred on the server" });
   }
 }
@@ -44,7 +44,7 @@ export const createUser = async (req: Request, res: Response) => {
     users.push(req.body);
     await fs.writeFile(usersFilePath, JSON.stringify(users));
     res.status(201).json({ message: 'User created successfully' });
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: "An error has ocurred on the server" });
   }
 }

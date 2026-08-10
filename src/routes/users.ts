@@ -1,6 +1,6 @@
 // Router for Users
 
-import Router from 'express';
+import { Router } from 'express';
 import { getUsers, createUser, getUserById } from '../controllers/users.js';
 
 const usersRouter = Router();
