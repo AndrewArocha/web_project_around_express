@@ -67,8 +67,8 @@ export const likeCard = async (req: Request, res: Response) => {
   });
 };
 
-export const dislikeCard = async (req: Request, res: Response) => {
-  // Not really a "dislike" as in downvote, but removing the like from the card, might change the name
+export const unlikeCard = async (req: Request, res: Response) => {
+  // Remove the like from the card
   const card = await Card.findByIdAndUpdate(
     req.params.id,
     { $pull: { likes: req.user?._id } },
