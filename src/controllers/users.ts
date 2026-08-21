@@ -1,51 +1,67 @@
 //Controller for users in src/controllers/users.ts
 
 import type { Request, Response } from 'express';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-
-const usersFilePath = path.join(import.meta.dirname, '../../data/users.json');
+import User from '../controllers/models/user.js'
 
 export const getUsers = async (req: Request, res: Response) => {
-    // Logic to get users from the database
-  try {
-    const data = await fs.readFile(usersFilePath, 'utf-8');
-    const users = JSON.parse(data);
-    res.status(200).json(users);
-  } catch {
-    res.status(500).json({ message: "An error has ocurred on the server" });
-  }
+  // Logic to get users from the database
+  const users = await User.find({});
+  res.send(users);
 }
 
 export const getUserById = async (req: Request, res: Response) => {
-    // Logic to get a user by ID from the database
-  try {
-    const userId = req.params.id;
-    const data = await fs.readFile(usersFilePath, 'utf-8');
-    const users = JSON.parse(data);
-    
-    const user = users.find((u: { _id: string }) => u._id === userId);
-    
-    if (user) {
-        res.status(200).json(user);
-    } else {
-        res.status(404).json({ message: "User ID not found" }); 
-    }
-  } catch {
-    res.status(500).json({ message: "An error has ocurred on the server" });
+  // Logic to get a user by ID from the database
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    throw Object.assign(new Error("User ID not found."), {
+      statusCode: 404,
+    });
   }
+  res.send(user);
 }
+
+export const getCurrentUser = async (req: Request, res: Response) => {
+  // Logic to fetch the currently logged in user
+  const user = await User.findById(req.user?._id);
+  if (!user) {
+    throw Object.assign(new Error("No se encontró ningún usuario con ese id"), {
+      statusCode: 404,
+    });
+  }
+  res.send(user);
+};
 
 export const createUser = async (req: Request, res: Response) => {
-    // Logic to create a new user in the database
-  try {
-    const data = await fs.readFile(usersFilePath, 'utf-8');
-    const users = JSON.parse(data);
-    users.push(req.body);
-    await fs.writeFile(usersFilePath, JSON.stringify(users));
-    res.status(201).json({ message: 'User created successfully' });
-  } catch {
-    res.status(500).json({ message: "An error has ocurred on the server" });
-  }
-}
+  // Create a new user (with the 3 props)
+  const { name, about, avatar } = req.body;
+  const user = await User.create({ name, about, avatar });
+  res.send(user);
+};
 
+export const updateProfile = async (req: Request, res: Response) => {
+  // Profile handler 
+  const { name, about } = req.body;
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    { name, about },
+    { new: true, runValidators: true }
+  );
+  if (!user) {
+    throw Object.assign(new Error("No se encontró ningún usuario con ese id"), { statusCode: 404 });
+  }
+  res.send(user);
+};
+
+export const updateAvatar = async (req: Request, res: Response) => {
+  // Change your avatar
+  const { avatar } = req.body;
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    { avatar },
+    { new: true, runValidators: true }
+  );
+  if (!user) {
+    throw Object.assign(new Error("No se encontró ningún usuario con ese id"), { statusCode: 404 });
+  }
+  res.send(user);
+};
