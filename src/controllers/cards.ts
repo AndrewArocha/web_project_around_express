@@ -2,7 +2,7 @@
 
 import type { Request, Response } from 'express';
 import { Types } from 'mongoose';
-import Card from '../controllers/models/card.js'
+import Card from '../models/card.js'
 
 export const getCards = async (req: Request, res: Response) => {
   // Logic to get cards from the database
@@ -34,7 +34,10 @@ export const createCard = async (req: Request, res: Response) => {
     owner: new Types.ObjectId(userId),
   });
 
-  res.send(card);
+  res.send({
+    ...card.toObject(),
+    isLiked: false
+  });
 };
 
 export const deleteCard = async (req: Request, res: Response) => {

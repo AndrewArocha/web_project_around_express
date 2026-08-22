@@ -1,7 +1,7 @@
 //Controller for users in src/controllers/users.ts
 
 import type { Request, Response } from 'express';
-import User from '../controllers/models/user.js'
+import User from '../models/user.js'
 
 export const getUsers = async (req: Request, res: Response) => {
   // Logic to get users from the database

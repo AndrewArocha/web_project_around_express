@@ -8,7 +8,7 @@ The server is designed with a strong focus on modular routing, asynchronous file
 ## 🚀 Features
 *   **Modular Routing:** Independent Express routers for `/users` and `/cards` endpoints.
 *   **Dynamic Endpoints:** Fetches specific users via dynamic routing (e.g., `/users/:id`).
-*   **Asynchronous Operations:** Utilizes `node:fs/promises` for non-blocking file reading and writing.
+*  ***`NEW`*** **Database Integration:** Connects to a `MongoDB` database using Mongoose for robust data modeling and validation.
 *   **Secure Pathing:** Implements `node:path` and ES Module `import.meta.dirname` for absolute path resolution.
 *   **Strict Error Handling:** Comprehensive `try...catch` blocks to prevent unhandled exceptions, alongside a dedicated 404 catch-all route for invalid endpoints.
 

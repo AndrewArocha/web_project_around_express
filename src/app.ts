@@ -3,6 +3,7 @@
 import express, { type Request, type Response } from 'express';
 import Router from './routes/index.js'
 import mongoose from 'mongoose';
+import { errorHandler } from './middleware/error-handler.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,10 +32,11 @@ app.use((req, res, next) => {
 // Routers
 app.use(Router)
 
-// Catch-all route for non-existent addresses 
-app.use((req: Request, res: Response) => {
-  res.status(404).json({ message: "Requested resource not found" });
-});
+// Error handler middleware
+app.use(errorHandler)
 
-app.listen(PORT);
+// Mount
+app.listen(PORT, () => {
+  console.info(`App listening on port ${PORT}`);
+});
 
