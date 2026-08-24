@@ -15,7 +15,7 @@ export const errorHandler = (
   }
 
   const message =
-    statusCode === 500 ? "Server error detected" : err.message;
+    statusCode === 500 ? "A server error has occurred" : err.message;
 
   res.status(statusCode).send({ message },);
 };

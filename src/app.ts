@@ -1,6 +1,6 @@
 // Express server Setup in App.ts
 
-import express, { type Request, type Response } from 'express';
+import express from 'express';
 import Router from './routes/index.js'
 import mongoose from 'mongoose';
 import { errorHandler } from './middleware/error-handler.js';
@@ -24,13 +24,19 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   req.user = {
-    _id: "6a882243b5291096ba30acee", 
+    _id: "6a882243b5291096ba30acee",
   };
   next();
 });
 
 // Routers
 app.use(Router)
+
+//404 Routes
+
+app.use((req, res, next) => {
+  next(Object.assign(new Error("Ruta no encontrada"), { statusCode: 404 }));
+});
 
 // Error handler middleware
 app.use(errorHandler)
